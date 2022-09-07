@@ -1,0 +1,506 @@
+options {
+  IGNORE_CASE = false;
+  STATIC = false;
+  UNICODE_INPUT=true;
+}
+
+PARSER_BEGIN(Gramatica)
+/** Analizador de expresiones aritmeticas sencillas. */
+package Analizador; 
+public class Gramatica {
+}
+PARSER_END(Gramatica)
+
+/** Lexico */
+    SKIP : {
+      " "
+    | "\t"
+    | "\b"
+    | "\r"
+    | "\n"
+} 
+
+<DEFAULT> MORE : { "//" : IN_SINGLE_LINE_COMMENT
+                 | "/*" : IN_MULTI_LINE_COMMENT
+                 | "/*@bgen(jjtree" : IN_MULTI_LINE_COMMENT
+}
+
+<IN_SINGLE_LINE_COMMENT> SPECIAL_TOKEN : {
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n"> : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT> SPECIAL_TOKEN : {
+  <MULTI_LINE_COMMENT: "*/"> : DEFAULT
+}
+
+<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT> MORE : {
+  <~[]>
+}
+
+
+/** ---------- Palabras reservadas ---------- */
+TOKEN : {
+      < IF : "If" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < ELSE: "Else" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < WHILE: "While" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < CLASS: "class" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < PACK: "Pack" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < LIBRARY: "Library" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < PUBLIC: "public" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < PRIVATE: "private" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < BREAK: "break" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < DO: "do" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < CHAR: "char" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < STRING: "string" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < INT: "int" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < FLOAT: "float" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < BOOLEAN: "boolean" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < TRY: "Try" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < CATCH: "Catch" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < SUPER: "Super" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < THIS: "This" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < DERIVATE: "Derivate" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < RETURN: "return" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < FINAL: "Final" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < VOID: "void" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < NULL: "null" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < IMPORT: "import" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < TRUE: "true" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < FALSE: "false" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < FOR: "For" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < SWITCH: "Switch" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < CASE: "Case" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < PRINMAIN: "principalMain" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < DOUBLE: "double" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < EXCEPT: "Except" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+    | < DEF: "Default" > {System.out.println(image + " -> Palabra reservada " + "\n");}
+}
+    
+
+
+
+
+/** ---------- Tokens fijos ---------- */
+TOKEN : {
+     < LLAVA: "{" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < LLAVC: "}" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < CORA: "[" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < CORC: "]" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < PAREA: "(" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < PAREC: ")" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < PYC: ";" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < COMSIM: "'" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < COM: "," > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < PUNT: "." > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < GUIONB: "_" > {System.out.println(image + " -> Token fijo " + "\n");}
+    | < DOSP: ":" > {System.out.println(image + " -> Token fijo " + "\n");}
+}
+
+
+
+/** ---------- Operadores relacionales ---------- */
+TOKEN : {
+      < MAYORQ : ">" > {System.out.println(image + " -> Operador relacional " + "\n");}
+    | < MENORQ: "<" > {System.out.println(image + " -> Operador relacional " + "\n");}
+    | < MAYORI: ">=" > {System.out.println(image + " -> Operador relacional " + "\n");}
+    | < MENORI: "<=" > {System.out.println(image + " -> Operador relacional " + "\n");}
+    | < IGUALI: "==" > {System.out.println(image + " -> Operador relacional " + "\n");}
+    | < DIFER: "<>" > {System.out.println(image + " -> Operador relacional " + "\n");}
+}
+
+
+
+/** ---------- Operadores lógicos ---------- */
+TOKEN : {
+      < AND: "AND" > {System.out.println(image + " -> Operador lógico " + "\n");}
+    | < OR: "OR" > {System.out.println(image + " -> Operador lógico " + "\n");}
+    | < NOT: "NOT" > {System.out.println(image + " -> Operador lógico " + "\n");}
+}
+
+
+
+/** ---------- Operadores incrementales ---------- */
+TOKEN : {
+      < INCRE: "++" > {System.out.println(image + " -> Operador incremental " + "\n");}
+    | < DECRE: "--" > {System.out.println(image + " -> Operador incremental " + "\n");}
+}
+
+
+
+/** ---------- Operadores de asignación ---------- */
+TOKEN : {
+      < ASIG: "=" > {System.out.println(image + " -> Operador de asignación " + "\n");}
+    | < SUMASIG: "+=" > {System.out.println(image + " -> Operador de asignación " + "\n");}
+    | < RESASIG: "-=" > {System.out.println(image + " -> Operador de asignación " + "\n");}
+    | < MULASIG: "*=" > {System.out.println(image + " -> Operador de asignación " + "\n");}
+    | < DIVASIG: "/=" > {System.out.println(image + " -> Operador de asignación " + "\n");}
+    | < MODASIG: "%=" > {System.out.println(image + " -> Operador de asignación " + "\n");}
+}
+
+
+
+/** ---------- Operadores aritmeticos ---------- */
+TOKEN : {
+      < SUMA: "+" > {System.out.println(image + " -> Operador aritmetico " + "\n");}
+    | < RESTA: "-" > {System.out.println(image + " -> Operador aritmetico " + "\n");}
+    | < DIVIS: "/" > {System.out.println(image + " -> Operador aritmetico " + "\n");}
+    | < POTEN: "^" > {System.out.println(image + " -> Operador aritmetico " + "\n");}
+    | < MODUL: "%" > {System.out.println(image + " -> Operador aritmetico " + "\n");}
+    | < MULTI: "*" > {System.out.println(image + " -> Operador aritmetico " + "\n");}
+}
+
+
+
+/** ---------- Variables, clases, paquetes y otros... ---------- */
+TOKEN : {
+      < #letraMay: ["A"-"Z"]  >
+    | < #letraMin: ["a"-"z"]  >
+    | < #c: ["a"-"z", "A"-"Z", "0"-"9", "|", "'", "/", "(", ")", "{", "}", "[", "]", ",", ".", ";", "_", ":", " "]  >
+    | < #digito: ["0"-"9"]  >
+    | < ENTERO: (<digito>)+ > {System.out.println(image + " -> Numero entero " + "\n");}
+    | < FLOTANTEDOUBLE: ((<digito>)+ "." (<digito>)+)+ > {System.out.println(image + " -> Numero flotante " + "\n");}
+    | < CLASES: <letraMay>(<letraMin>)+ > {System.out.println(image + " -> Nombre de clase " + "\n");}
+    | < CARACTER: "'"(< letraMay >|< letraMin >|< digito >)"'" > {System.out.println(image + " -> Caracter " + "\n");}
+    | < CADENA: "\"" (< c >)+ "\"" > {System.out.println(image + " -> Cadena " + "\n");}
+    | < PAQUET: (<letraMay>) (<letraMin>)+ ("_" (<letraMay>) (<letraMin>)+)+ > {System.out.println(image + " -> Nombre de paquete " + "\n");}
+    | < VAR: (<letraMin>)+ > {System.out.println(image + " -> Nombre de variable " + "\n");}
+    | < FUNC: (< letraMin >)+ (< letraMay > (< letraMin >)+)+ > {System.out.println(image + " -> Nombre de función " + "\n");}
+    | < LIBR: (< letraMin >)+ ("_"(< letraMin >|< letraMay >)+)+ > {System.out.println(image + " -> Nombre de libreria " + "\n");}
+}
+
+/** ---------- Caracteres no validos ---------- */
+TOKEN : {
+      < A: "\u00aa" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+    | < GRADOS: "\u00ba" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+    | < CPOR: "\u00e7" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+    | < PUNTOS: "\u00a8" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+    | < ACENTOI: "`" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+    | < ACENTO: "\u00b4" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+    | < BARRAI: "\\" > {System.out.println(image + " -> Carácter no valido " + "\n");}
+}
+/** Fin Lexico */
+
+/**Inicio sintactico*/
+
+void Inicio() : 
+{}
+{
+    Import() Clases() <EOF>
+}
+
+void Vacio() : 
+{}
+{
+    {}
+}
+
+void Import() : 
+{}
+{
+    <IMPORT> Import1() | Vacio()
+}
+
+void Import1() : 
+{}
+{
+    <LIBR> <PYC> Import2()
+}
+
+void Import2() : 
+{}
+{
+    <IMPORT> Import1() | Vacio()
+}
+
+void Tipo() : 
+{}
+{
+     <INT>|<CHAR>|<STRING>|<BOOLEAN>|<FLOAT>|<DOUBLE>
+}
+
+void TipoEncapsular() : 
+{}
+{
+     <PUBLIC>|<PRIVATE>
+}
+
+void Clases() : 
+{}
+{
+    TipoEncapsular() <CLASS> <CLASES> ClasesA()
+}
+
+void ClasesA() : 
+{}
+{
+    <LLAVA>(TipoEncapsular() (Constructor()|Cuerpo())|Vacio())<LLAVC> | <DERIVATE> <CLASES> <LLAVA>Constructor_hijo() Cuerpo()<LLAVC> | Vacio()
+}
+
+void Constructor() : 
+{}
+{
+    <CLASES> <PAREA>Argumentos()<PAREC> <LLAVA>Sentencia()<LLAVC>
+}
+
+void Constructor_hijo() : 
+{}
+{
+    TipoEncapsular() <CLASES> <PAREA>Argumentos()<PAREC> <LLAVA>Super() Sentencia()<LLAVC>
+}
+
+void Cuerpo() : 
+{}
+{
+    Tipo() (Variables_clase() | Metodo()) CuerpoA() | <VOID> MetodosA()
+}
+
+void CuerpoA() : 
+{}
+{
+     TipoEncapsular() (Tipo() (Variables_clase() | Metodo()) CuerpoA() | <VOID> MetodosA()|Vacio()) | Vacio()
+}
+
+void MetodosA() : 
+{}
+{
+    <FUNC> Metodo_void() CuerpoA() | Principal() CuerpoA() 
+}
+
+void Principal() : 
+{}
+{
+    <PRINMAIN><PAREA><PAREC> <LLAVA>Sentencia()<LLAVC> 
+}
+
+void Metodo() : 
+{}
+{
+    <FUNC> <PAREA>Argumentos()<PAREC> <LLAVA>Sentencia() Retorno()<LLAVC>
+}
+
+void Retorno() : 
+{}
+{
+    <RETURN> Tipo_retorno()
+}
+
+void Tipo_retorno() : 
+{}
+{
+    Valor()<PYC>
+}
+
+void Metodo_void() : 
+{}
+{
+    <PAREA>Argumentos()<PAREC> <LLAVA>Sentencia()<LLAVC>
+}
+
+void Argumentos() : 
+{}
+{
+    Tipo() Declaracion() ArgumentosA()
+}
+
+void ArgumentosA() : 
+{}
+{
+    <COM>Argumentos() | Vacio()
+}
+
+void Variables_clase() : 
+{}
+{
+    Declaracion()<PYC> Variables_clase()
+}
+
+void Sentencia() : 
+{}
+{
+    <FOR> Sentencia_ciclofor() Sentencia() | <IF> Sentencia_condicion() Sentencia() | Tipo() Declaracion()<PYC> Sentencia() | <VAR> Sentencia_incremental() Sentencia() | <SWITCH> Sentencia_switch() Sentencia() | <TRY> Sentencia_try() Sentencia() | <THIS> Sentencia_this() Sentencia() | Sentencia_ciclowhile() Sentencia() | <FUNC> SentenciaLlamarMetodo() Sentencia() | Vacio()
+}
+
+void Parametros() : 
+{}
+{
+    <VAR> ParametrosA() | Exp() | <CADENA> ParametrosA() | <CARACTER> ParametrosA() | Vacio()
+}
+
+void ParametrosA() : 
+{}
+{
+    <COM>(<VAR> ParametrosA() | Exp() | <CADENA> ParametrosA() | <CARACTER> ParametrosA()) | Vacio()
+}
+
+
+void SentenciaLlamarMetodo() : 
+{}
+{
+    <PAREA>Parametros()<PAREC><PYC>
+}
+
+void Sentencia_try() : 
+{}
+{
+    <LLAVA>Sentencia()<LLAVC> <CATCH> <PAREA> <EXCEPT> <VAR><PAREC> <LLAVA>Sentencia()<LLAVC>
+}
+
+void Sentencia_ciclofor() : 
+{}
+{
+    <PAREA>Declaracionfor()<PYC> Condg()<PYC> Sentencia_incremental()<PAREC> <LLAVA>Sentencia()<LLAVC>
+}
+
+void Sentencia_ciclowhile() : 
+{}
+{
+    <WHILE> <PAREA>Condg()<PAREC> <LLAVA>Sentencia()<LLAVC> | <DO> <LLAVA>Sentencia()<LLAVC> <WHILE> <PAREA>Condg()<PAREC> <PYC>
+}
+
+void Sentencia_condicion() : 
+{}
+{
+    <PAREA>Condg()<PAREC> <LLAVA>Sentencia()<LLAVC> Si_e()
+}
+
+void Sentencia_incremental() : 
+{}
+{
+    <INCRE><PYC> | <DECRE><PYC>
+}
+
+void Super() : 
+{}
+{
+    <SUPER> <PAREA>Argumentos()<PAREC><PYC>
+}
+
+void Sentencia_this() : 
+{}
+{
+    <VAR> <ASIG> <VAR><PYC> Sentencia_this() | Vacio()
+}
+
+void Sentencia_switch() : 
+{}
+{
+    <SWITCH> <VAR> <LLAVA>Case() <DEF> Sentencia() <BREAK><PYC><LLAVC> 
+}
+
+void Case() : 
+{}
+{
+    <CASE> Caso()<DOSP> Sentencia() <BREAK><PYC> Case() | Vacio()
+}
+
+void Caso() : 
+{}
+{
+    X() | <CADENA> | <CARACTER>
+}
+
+void Si_e() : 
+{}
+{
+    <ELSE> Si_EA() | Vacio()
+}
+
+void Si_EA() : 
+{}
+{
+    <LLAVA>Sentencia()<LLAVC> | Sentencia_condicion()
+}
+
+void Condg() : 
+{}
+{
+    (<PAREA>Condg()<PAREC>| Cond() | <NOT> Condg()) CondgA()
+}
+
+void CondgA() : 
+{}
+{
+    <AND> Condg() CondgA() | <OR> Condg() CondgA() | <NOT> Condg() CondgA() | Vacio()
+}
+
+void Cond() : 
+{}
+{
+    Exp() (<MAYORQ> | <MENORQ> | <MAYORI> | <MENORI> | <IGUALI> | <DIFER> ) Exp() | <TRUE> | <FALSE>
+}
+
+void Exp() : 
+{}
+{
+    <PAREA>Exp()<PAREC> ExpA() | <VAR> ExpA() | <ENTERO> ExpA() | <FLOTANTEDOUBLE> ExpA()
+}
+
+void ExpA() : 
+{}
+{
+    <SUMA> Exp() | <RESTA> Exp() | <DIVIS> Exp() | <POTEN> Exp() | <MODUL> Exp() | Parametros()
+}
+
+void Declaracion() : 
+{}
+{
+    <VAR> (<ASIG> ((Valor()(Oper()Valor())*)|(<PAREA>Valor()(Oper()Valor())*<PAREC>))|Vacio())
+}
+
+void Arreglo():
+{}
+{
+    <CORA> 
+        ((<ENTERO>)
+         |(<VAR>)
+         |(<CARACTER>) 
+         ) <CORC>
+}
+
+void Valor():
+{}
+{
+    <ENTERO>|<FLOTANTEDOUBLE>|<CHAR>|<CADENA>|<TRUE>|<FALSE>|<VAR>
+}
+
+void Oper():
+{}
+{
+    <SUMA>|<RESTA>|<DIVIS>|<POTEN>|<MODUL>|<MULTI>
+}
+
+void Z() : 
+{}
+{
+    <TRUE> | <FALSE> | <VAR>
+}
+
+void X() : 
+{}
+{
+    <ENTERO> X1() | <VAR> X1() | <PAREA>X()<PAREC> X1() 
+}
+
+void X1() : 
+{}
+{
+    <SUMA> X() X1() | <RESTA> X() X1() | <DIVIS> X() X1() | <POTEN> X() X1() | <MODUL> X() X1() | Vacio()
+}
+
+void Y() : 
+{}
+{
+    <FLOTANTEDOUBLE> Y1() | <VAR> Y1() | <PAREA>Y()<PAREC> Y1()
+}
+
+void Y1() : 
+{}
+{
+    <SUMA> Y() Y1() | <RESTA> Y() Y1() | <DIVIS> Y() Y1() | <POTEN> Y() Y1() | <MODUL> Y() Y1() 
+}
+
+void Declaracionfor() : 
+{}
+{
+    <INT> <VAR> <ASIG> X() | <DOUBLE> <VAR> <ASIG> Y() | <FLOAT> <VAR> <ASIG> Y()
+}
