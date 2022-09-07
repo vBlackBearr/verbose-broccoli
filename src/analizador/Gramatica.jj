@@ -8,6 +8,9 @@ PARSER_BEGIN(Gramatica)
 /** Analizador de expresiones aritmeticas sencillas. */
 package Analizador; 
 public class Gramatica {
+    public static void main (String[]args){
+       
+    }
 }
 PARSER_END(Gramatica)
 
